@@ -1,0 +1,5 @@
+---
+- name: Start ClickHouse server
+  systemd:
+    name: clickhouse-server
+    state: started

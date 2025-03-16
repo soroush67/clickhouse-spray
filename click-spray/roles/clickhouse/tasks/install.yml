@@ -1,0 +1,36 @@
+---
+- name: Install dependencies
+  package:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: Install dependencies (RHEL/CentOS)
+  yum:
+    name:
+      - curl
+    state: present
+  when: ansible_os_family == "RedHat"
+
+- name: Add ClickHouse repo
+  get_url:
+    url: https://packages.clickhouse.com/rpm/clickhouse.repo
+    dest: /etc/yum.repos.d/clickhouse.repo
+  when: ansible_os_family == "RedHat"
+
+- name: Install ClickHouse server & client
+  package:
+    name:
+      - clickhouse-server
+      - clickhouse-client
+    state: present
+
+- name: Ensure ClickHouse service is enabled but not yet started
+  systemd:
+    name: clickhouse-server
+    enabled: yes
+    state: stopped
+

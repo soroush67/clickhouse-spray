@@ -1,0 +1,4 @@
+- hosts: clickhouse
+  become: true
+  roles:
+    - clickhouse
