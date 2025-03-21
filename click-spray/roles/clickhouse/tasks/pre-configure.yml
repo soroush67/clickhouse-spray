@@ -1,8 +1,17 @@
 ---
-- name: Set task_delayacct permanently
-  ansible.builtin.sysctl:
+- name: Create sysctl.d file for task_delayacct
+  template:
+    src: task_delayacct.conf.j2
+    dest: /etc/sysctl.d/task_delayacct.conf
+    mode: '0644'
+
+- name: Reload sysctl to apply new settings
+  command: sysctl --system
+
+- name: Ensure runtime value is set immediately
+  sysctl:
     name: kernel.task_delayacct
-    value: 1
+    value: "{{ delayacct_value }}"
     state: present
-    reload: yes
+    reload: no
 
