@@ -1,5 +1,2 @@
 ---
-
-- name: preconfigure servers
-  import_tasks: preconfigure.yml
-  when: ansible_distribution == 'Ubuntu'
+# tasks file for clickhouse

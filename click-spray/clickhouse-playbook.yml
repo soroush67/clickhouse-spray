@@ -1,0 +1,11 @@
+---
+- name: clickhouse playbook
+  hosts: all
+  become: true
+  pre_tasks:
+    - name : sample work
+      ansible.builtin.debug:
+        msg: "start ...."
+  roles:
+    - clickhouse
+
