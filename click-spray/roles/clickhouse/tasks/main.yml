@@ -2,3 +2,4 @@
 
 - name: preconfigure servers
   import_tasks: preconfigure.yml
+  when: ansible_distribution == 'Ubuntu'
