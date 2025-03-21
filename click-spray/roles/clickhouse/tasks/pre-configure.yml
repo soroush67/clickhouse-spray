@@ -1,0 +1,8 @@
+---
+- name: Set task_delayacct permanently
+  ansible.builtin.sysctl:
+    name: kernel.task_delayacct
+    value: 1
+    state: present
+    reload: yes
+
