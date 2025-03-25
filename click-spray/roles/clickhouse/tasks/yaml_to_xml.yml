@@ -1,0 +1,33 @@
+- name: Convert YAML to XML
+  hosts: server
+  become: yes
+  vars:
+    yaml_file_path: "/home/devops/import/config.yaml"   
+    xml_file_path: "/home/devops/import/config.xml"  
+
+  tasks:
+
+    - name: Install required Python package (xmltodict)
+      ansible.builtin.pip:
+        name: xmltodict
+        state: present
+
+    - name: Copy YAML to remote server
+      ansible.builtin.copy:
+        src: "{{ yaml_file_path }}"
+        dest: "{{ yaml_file_path }}"
+        mode: '0644'
+
+    - name: Convert YAML to XML using Python script
+      ansible.builtin.shell: |
+        python3 - <<EOF
+        import yaml
+        import xmltodict
+        with open('{{ yaml_file_path }}', 'r') as f:
+            yaml_data = yaml.safe_load(f)
+        xml_data = xmltodict.unparse(yaml_data, pretty=True)
+        with open('{{ xml_file_path }}', 'w') as f:
+            f.write(xml_data)
+        EOF
+
+
